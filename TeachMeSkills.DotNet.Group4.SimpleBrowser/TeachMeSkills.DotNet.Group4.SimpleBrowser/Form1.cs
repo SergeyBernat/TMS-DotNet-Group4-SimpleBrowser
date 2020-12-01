@@ -9,6 +9,7 @@ namespace TeachMeSkills.DotNet.Group4.SimpleBrowser
 {
     public partial class Form1 : Form
     {
+        HttpClient httpClient = new HttpClient();
         WebBrowser web = new WebBrowser();
         int i = 0;
         public Form1(WeatherModel weather)
@@ -16,7 +17,6 @@ namespace TeachMeSkills.DotNet.Group4.SimpleBrowser
             InitializeComponent();
             GetCurrentDayInfo(weather);
             GetInfo(weather);
-            /*timer1.Start();*/
         }
         public void GetCurrentDayInfo(WeatherModel weather)
         {
@@ -86,7 +86,6 @@ namespace TeachMeSkills.DotNet.Group4.SimpleBrowser
 
             }
         }
-
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             if (tabControl1.TabPages.Count != 0)
@@ -94,7 +93,6 @@ namespace TeachMeSkills.DotNet.Group4.SimpleBrowser
                 ((WebBrowser)tabControl1.SelectedTab.Controls[0]).GoBack();
             }
         }
-
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             if (tabControl1.TabPages.Count != 0)
@@ -102,7 +100,6 @@ namespace TeachMeSkills.DotNet.Group4.SimpleBrowser
                 ((WebBrowser)tabControl1.SelectedTab.Controls[0]).GoForward();
             }
         }
-
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
             if (tabControl1.TabPages.Count != 0)
@@ -110,7 +107,6 @@ namespace TeachMeSkills.DotNet.Group4.SimpleBrowser
                 ((WebBrowser)tabControl1.SelectedTab.Controls[0]).Refresh();
             }
         }
-
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
             if (tabControl1.TabPages.Count > 1)
@@ -161,14 +157,6 @@ namespace TeachMeSkills.DotNet.Group4.SimpleBrowser
                 ((WebBrowser)tabControl1.SelectedTab.Controls[0]).Refresh();
             }
         }
-
-        private async void getIpAdressToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var httpClient = new HttpClient();
-            var ip = await httpClient.GetStringAsync("https://api.ipify.org");
-            ApiOut.Text = $"ipv4: {ip}";
-        }
-
         private void toolStripButton1_Click_1(object sender, EventArgs e)
         {
             if (tabControl1.Visible == true)
@@ -177,25 +165,15 @@ namespace TeachMeSkills.DotNet.Group4.SimpleBrowser
             }
             else
             {
-                tabControl1.Visible = true;
+                if (tabControl1.TabPages.Count != 0)
+                {
+                    tabControl1.Visible = true;
+                }
             }
         }
-        public void sdfsd()
+        private async void getIpv4ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            day1.Text = "win";
+            ApiOut.Text = $"ipv4: {await httpClient.GetStringAsync("https://api.ipify.org")}";
         }
-        /*private void timer1_Tick(object sender, EventArgs e)
-{
-   var bw = new BackgroundWorker();
-   bw.DoWork += (obj, ea) => RefreshCurrentData();
-   bw.RunWorkerAsync();
-   timer1.Interval = 6000;
-   timer1.Start();
-}
-private async void RefreshCurrentData()
-{
-   WeatherModel weather = Program.GetWeatherFromAPI().GetAwaiter().GetResult();
-  GetCurrentDayInfo(weather);
-}*/
     }
 }
